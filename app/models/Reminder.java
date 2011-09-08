@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import org.joda.time.DateMidnight;
+import org.joda.time.MutableDateTime;
+import org.joda.time.Years;
 
 import play.db.jpa.Model;
 
@@ -18,8 +20,22 @@ public class Reminder extends Model {
 	@ManyToOne
 	public Event event;
 	
-	
 	public static List<Reminder> findFiringToday() {
 		return find("nextFireDate", new DateMidnight().toDate()).fetch();
+	}
+	
+	public void computeNextFireDate() {
+		DateMidnight today = new DateMidnight();
+		MutableDateTime time = new MutableDateTime();
+		
+		time.setDayOfMonth(event.dayOfMonth);
+		time.setMonthOfYear(event.monthOfYear);
+		time.addDays(-1 * numberOfDaysBeforeEvent);
+
+		if(time.isBefore(today)) {
+			time.add(Years.ONE);
+		}
+		nextFireDate = time.toDate();
+		
 	}
 }
