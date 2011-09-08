@@ -20,15 +20,15 @@ public class TestDataLoaderJob extends Job {
 		if (Play.mode == Play.Mode.DEV) {
 			User user = new User();
 			user.email="birtday@mail.com";
+			
 			Event event = new Event();
 			event.name = "My wife birthday";
-			event.user = user;
-			user.events.add(event);
 			
 			Reminder reminder = new Reminder();
 			reminder.nextFireDate = new DateMidnight().toDate();
-			reminder.event = event;
-			event.reminders.add(reminder);
+
+			user.addEvent(event);
+			event.addReminder(reminder);
 			
 			user.save();
 			event.save();
@@ -36,4 +36,6 @@ public class TestDataLoaderJob extends Job {
 			
 		}
 	 }
+
+	
 }

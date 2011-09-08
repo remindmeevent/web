@@ -16,4 +16,9 @@ public class User extends Model {
 	@OneToMany(mappedBy="user")
 	public List<Event> events = new ArrayList<Event>();
 	
+	public void addEvent(Event event) {
+		event.user = this;
+		events.add(event);
+	}
+	
 }

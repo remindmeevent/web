@@ -20,5 +20,10 @@ public class Event extends Model{
 	public User user;
 	@OneToMany(mappedBy="event")
 	public List<Reminder> reminders = new ArrayList<Reminder>();
+	
+	public void addReminder(Reminder reminder) {
+		reminder.event = this;
+		reminders.add(reminder);
+	}
 
 }
