@@ -32,10 +32,6 @@ public class TestDataLoaderJob extends Job {
 			
 			user.save();
 			event.save();
-			reminder.save();
-			
 		}
 	 }
-
-	
 }

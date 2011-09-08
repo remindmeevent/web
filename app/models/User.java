@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -13,7 +14,7 @@ public class User extends Model {
 
 	public String email;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
 	public List<Event> events = new ArrayList<Event>();
 	
 	public void addEvent(Event event) {
