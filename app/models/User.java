@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,9 +11,9 @@ import play.db.jpa.Model;
 @Entity
 public class User extends Model {
 
-	String email;
+	public String email;
 	
-	@OneToMany
-	List<Event> events;
+	@OneToMany(mappedBy="user")
+	public List<Event> events = new ArrayList<Event>();
 	
 }
