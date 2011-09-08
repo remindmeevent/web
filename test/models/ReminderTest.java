@@ -1,5 +1,6 @@
 package models;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.junit.Test;
@@ -29,6 +30,9 @@ public class ReminderTest extends UnitTest {
 		
 		DateTime now = new DateTime();
 		DateTime nextFireDate = new DateTime(reminder.nextFireDate.getTime());
+		//Midnight
+		assertEquals(new DateMidnight(nextFireDate), nextFireDate);
+		
 		// In the future
 		assertTrue(now.isBefore(nextFireDate));
 		

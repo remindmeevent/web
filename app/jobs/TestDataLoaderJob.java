@@ -3,6 +3,8 @@ package jobs;
 import java.util.List;
 
 import org.joda.time.DateMidnight;
+import org.joda.time.Days;
+import org.joda.time.MutableDateTime;
 
 import models.Event;
 import models.Reminder;
@@ -24,11 +26,21 @@ public class TestDataLoaderJob extends Job {
 			Event event = new Event();
 			event.name = "My wife birthday";
 			
+			MutableDateTime tomorrow = new MutableDateTime(new DateMidnight());
+			Logger.debug("now : %s", tomorrow);
+			tomorrow.add(Days.ONE);
+			Logger.debug("Tomorrow : %s", tomorrow);
+			
+			event.dayOfMonth = tomorrow.getDayOfMonth();
+			event.monthOfYear = tomorrow.getMonthOfYear();
+			
 			Reminder reminder = new Reminder();
-			reminder.nextFireDate = new DateMidnight().toDate();
+			reminder.numberOfDaysBeforeEvent = 1 ;
 
 			user.addEvent(event);
 			event.addReminder(reminder);
+			
+			reminder.computeNextFireDate();
 			
 			user.save();
 			event.save();

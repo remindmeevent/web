@@ -26,7 +26,7 @@ public class Reminder extends Model {
 	
 	public void computeNextFireDate() {
 		DateMidnight today = new DateMidnight();
-		MutableDateTime time = new MutableDateTime();
+		MutableDateTime time = new MutableDateTime(today);
 		
 		time.setDayOfMonth(event.dayOfMonth);
 		time.setMonthOfYear(event.monthOfYear);
