@@ -2,3 +2,4 @@
 
 require:
   - play
+  - org.hamcrest -> hamcrest-all 1.1
