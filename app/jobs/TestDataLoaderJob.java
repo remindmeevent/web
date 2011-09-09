@@ -17,33 +17,33 @@ import play.jobs.OnApplicationStart;
 
 @OnApplicationStart
 public class TestDataLoaderJob extends Job {
-	 public void doJob() {
+	public void doJob() {
 		Logger.debug("TestDataLoaderJob.doJob()");
 		if (Play.mode == Play.Mode.DEV) {
 			User user = new User();
-			user.email="birtday@mail.com";
-			
+			user.email = "jsevellec@gmail.com";
+
 			Event event = new Event();
 			event.name = "My wife birthday";
-			
+
 			MutableDateTime tomorrow = new MutableDateTime(new DateMidnight());
 			Logger.debug("now : %s", tomorrow);
 			tomorrow.add(Days.ONE);
 			Logger.debug("Tomorrow : %s", tomorrow);
-			
+
 			event.dayOfMonth = tomorrow.getDayOfMonth();
 			event.monthOfYear = tomorrow.getMonthOfYear();
-			
+
 			Reminder reminder = new Reminder();
-			reminder.numberOfDaysBeforeEvent = 1 ;
+			reminder.numberOfDaysBeforeEvent = 1;
 
 			user.addEvent(event);
 			event.addReminder(reminder);
-			
+
 			reminder.computeNextFireDate();
-			
+
 			user.save();
 			event.save();
 		}
-	 }
+	}
 }
