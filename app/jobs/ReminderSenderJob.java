@@ -6,10 +6,12 @@ import models.Reminder;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.joda.time.DateMidnight;
 
 import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDayDV;
 
 import play.Logger;
+import play.db.jpa.JPA;
 import play.jobs.Every;
 import play.jobs.Job;
 import play.libs.Mail;
@@ -28,6 +30,8 @@ public class ReminderSenderJob extends Job {
 			Logger.debug("Sending reminder for event named %s to %s ", reminder.event.name, reminder.event.user.email);
 			try {
 				send(reminder);
+				reminder.computeNextFireDate();
+				reminder.save();
 			} catch (EmailException e) {
 				Logger.error("There was an error when trying to send remind " + reminder.id + " by mail : "
 						+ e.getMessage());

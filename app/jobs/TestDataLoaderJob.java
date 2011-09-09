@@ -26,19 +26,18 @@ public class TestDataLoaderJob extends Job {
 			Event event = new Event();
 			event.name = "My wife birthday";
 
-			MutableDateTime tomorrow = new MutableDateTime(new DateMidnight());
-			tomorrow.add(Days.ONE);
+			DateMidnight today = new DateMidnight();
 			
-			event.dayOfMonth = tomorrow.getDayOfMonth();
-			event.monthOfYear = tomorrow.getMonthOfYear();
+			event.dayOfMonth = today.getDayOfMonth();
+			event.monthOfYear = today.getMonthOfYear();
 
 			Reminder reminder = new Reminder();
-			reminder.numberOfDaysBeforeEvent = 1;
+			reminder.numberOfDaysBeforeEvent = 0;
+			reminder.nextFireDate = today.toDate();
 
 			user.addEvent(event);
 			event.addReminder(reminder);
 
-			reminder.computeNextFireDate();
 
 			user.save();
 			event.save();
