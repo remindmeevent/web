@@ -27,10 +27,8 @@ public class TestDataLoaderJob extends Job {
 			event.name = "My wife birthday";
 
 			MutableDateTime tomorrow = new MutableDateTime(new DateMidnight());
-			Logger.debug("now : %s", tomorrow);
 			tomorrow.add(Days.ONE);
-			Logger.debug("Tomorrow : %s", tomorrow);
-
+			
 			event.dayOfMonth = tomorrow.getDayOfMonth();
 			event.monthOfYear = tomorrow.getMonthOfYear();
 
