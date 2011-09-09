@@ -1,13 +1,13 @@
 package models;
 
-import static org.junit.Assert.*;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import play.db.jpa.JPA;
-import play.test.UnitTest;
+import util.BaseUnitTest;
 
-public class EventTest extends UnitTest {
+public class EventTest extends BaseUnitTest {
 	
 	@Test
 	public void shouldCreateReminderBidirectionalLink() {
@@ -15,11 +15,11 @@ public class EventTest extends UnitTest {
 		Reminder reminder = new Reminder();
 		event.addReminder(reminder);
 		
-		assertNotNull(reminder.event);
-		assertTrue(event.reminders.contains(reminder));
+		assertThat(reminder.event).isNotNull();
+		assertThat(event.reminders).contains(reminder);
 	}
 	
-	@SuppressWarnings("deprecation")
+
 	@Test
 	public void shouldCascadindSaveReminders() throws Exception {
 		Event event = new Event();
@@ -30,8 +30,8 @@ public class EventTest extends UnitTest {
 		clearJPASession();
 		
 		event = Event.findById(event.id);
-		assertNotNull(event);
-		assertFalse(event.reminders.isEmpty());
+		assertThat(event).isNotNull();
+		assertThat(event.reminders).isNotEmpty();
 	}
 
 }

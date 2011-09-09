@@ -1,13 +1,17 @@
 package models;
 
 import org.joda.time.DateMidnight;
+
 import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.junit.Test;
 
 import play.test.UnitTest;
+import util.BaseUnitTest;
+import static org.fest.assertions.Assertions.assertThat;
 
-public class ReminderTest extends UnitTest {
+
+public class ReminderTest extends BaseUnitTest {
 
 	@Test
 	public void shouldComputeFiringDate() throws Exception {
@@ -26,20 +30,20 @@ public class ReminderTest extends UnitTest {
 		
 		reminder.computeNextFireDate();
 		
-		assertNotNull(reminder.nextFireDate);
+		assertThat(reminder.nextFireDate).isNotNull();
 		
 		DateTime now = new DateTime();
 		DateTime nextFireDate = new DateTime(reminder.nextFireDate.getTime());
 		//Midnight
-		assertEquals(new DateMidnight(nextFireDate), nextFireDate);
+		assertThat(nextFireDate).isEqualTo(new DateMidnight(nextFireDate));
 		
 		// In the future
-		assertTrue(now.isBefore(nextFireDate));
+		assertThat(now.isBefore(nextFireDate)).isTrue();
 		
 		// Less than a year between now and reminder
-		assertEquals(0, Years.yearsBetween(now, nextFireDate).getYears());
+		assertThat(Years.yearsBetween(now, nextFireDate).getYears()).isEqualTo(0);
 		
-		assertEquals(expectedDayOfMonth, nextFireDate.getDayOfMonth());
-		assertEquals(expectedMonthOfYear, nextFireDate.getMonthOfYear());
+		assertThat(nextFireDate.getDayOfMonth()).isEqualTo(expectedDayOfMonth);
+		assertThat(nextFireDate.getMonthOfYear()).isEqualTo(expectedMonthOfYear);
 	}
 }
