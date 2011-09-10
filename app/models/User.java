@@ -6,13 +6,18 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import play.db.jpa.Model;
+import play.libs.Crypto;
 
 @Entity
 public class User extends Model {
 
 	public String email;
+	public String hashedPassword;
+	@Transient
+	public String password; 
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
 	public List<Event> events = new ArrayList<Event>();
@@ -21,5 +26,19 @@ public class User extends Model {
 		event.user = this;
 		events.add(event);
 	}
+	
+	public void hashPassword() {
+		hashedPassword = hash(password);
+	}
+
+	private String hash(String string) {
+		return Crypto.passwordHash(string);
+	}
+	
+	public boolean authenticate(String submitedPassword) {
+		return hashedPassword.equals(hash(submitedPassword));
+	}
+	
+	
 	
 }

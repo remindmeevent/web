@@ -22,6 +22,8 @@ public class TestDataLoaderJob extends Job {
 		if (Play.mode == Play.Mode.DEV) {
 			User user = new User();
 			user.email = "jsevellec@gmail.com";
+			user.password = "azerty";
+			user.hashPassword();
 
 			Event event = new Event();
 			event.name = "My wife birthday";
