@@ -8,4 +8,6 @@ public class Security extends Secure.Security {
         User user = User.find("byEmail", username).first();
         return user != null && user.authenticate(password);
     }
+    
+    
 }
