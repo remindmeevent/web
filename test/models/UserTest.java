@@ -4,9 +4,11 @@ import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.*;
 
+import play.libs.Crypto;
 import play.test.UnitTest;
+import util.BaseUnitTest;
 
-public class UserTest {
+public class UserTest extends BaseUnitTest {
 	
 	@Test
 	public void shouldCreateEventBidirectionalLink() {
@@ -30,9 +32,16 @@ public class UserTest {
 		assertThat(user.hashedPassword).isNotEqualTo(password);
 		
 		assertThat(user.authenticate(password)).isTrue();
-		
-		
-		
 	}
-
+	
+	@Test
+	public void shouldUseASaltForPasswordHash() throws Exception {
+		User user = new User();
+		
+		String password = "azerty";
+		user.password = password;
+		user.hashPassword();
+		
+		assertThat(user.hashedPassword).isNotEqualTo(Crypto.passwordHash(password));
+	}
 }

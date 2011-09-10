@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import play.Play;
 import play.db.jpa.Model;
 import play.libs.Crypto;
 
@@ -32,7 +33,8 @@ public class User extends Model {
 	}
 
 	private String hash(String string) {
-		return Crypto.passwordHash(string);
+		String salt = Play.configuration.getProperty("application.secret").substring(0, 16);
+		return Crypto.passwordHash(salt + string);
 	}
 	
 	public boolean authenticate(String submitedPassword) {
