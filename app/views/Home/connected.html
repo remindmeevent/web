@@ -5,7 +5,7 @@
 <h2>Your events </h2>
 <ul>
 #{list items:user.events, as:'event'}
-	<li>${event.name}</li>
+	<li><a href="@{Events.show(event.id)}">${event.name}</a></li>
 #{/list}
 </ul>
 
