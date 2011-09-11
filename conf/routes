@@ -8,9 +8,8 @@
 # Home page
 GET     /                                       Home.home
 
-GET		/register								UserController.form
-POST	/register								UserController.perform
-
+GET		/register								Register.form
+POST	/register								Register.perform
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
