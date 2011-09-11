@@ -1,5 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'Welcome' /}
 
-<h1>Welcome connected</h1>
+<h1>Welcome ${user.email}</h1>
+<h2>Your events </h2>
+<ul>
+#{list items:user.events, as:'event'}
+	<li>${event.name}</li>
+#{/list}
+</ul>
 

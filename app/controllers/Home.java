@@ -13,7 +13,8 @@ public class Home extends Controller {
 
     public static void home() {
         if(Security.isConnected()) {
-        	render("Home/connected.html");
+        	User user = User.findByEmail(Security.connected());
+        	render("Home/connected.html", user);
         } else {
         	render("Home/anonymous.html");
         }
