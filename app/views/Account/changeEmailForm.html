@@ -1,0 +1,16 @@
+#{extends 'main.html' /}
+#{set title:'Change email' /}
+
+<h1>Change email</h1>
+#{form @Account.performChangeEmail()}
+	<div class="clearfix ${errors.forKey('email') ? 'error' : ''}">
+    	<label for="email">Email</label>
+        <div class="input">
+        	<input class="xlarge ${errors.forKey('email') ? 'error' : ''}" type="text" name="email" id="email" value="${flash.email ? flash.email : session.username }" />
+			<span class="help-inline">#{error 'email'/}</span>
+        </div>
+   	</div>
+	<div class="actions">
+        <button type="submit" class="btn primary">Change</button>
+    </div>
+#{/form}

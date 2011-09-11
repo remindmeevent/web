@@ -1,6 +1,7 @@
 package controllers;
 
 import models.User;
+import play.data.validation.Email;
 import play.data.validation.Equals;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
@@ -39,5 +40,35 @@ public class Account extends Controller {
 		Home.home();
 		
 	}
+	
+	public static void changeEmailForm() {
+		render();
+	}
+	
+	public static void performChangeEmail(@Required @Email String email) {
+
+		User user = User.findByEmail(Security.connected());
+		
+		if (email != null) {
+			User userWithSameEmail = User.findByEmail(email);
+			if (userWithSameEmail != null && ! userWithSameEmail.id.equals(user.id)) {
+				validation.addError("email", "Email already used");
+			}
+		}
+		
+		if (validation.hasErrors()) {
+			params.flash(); // add http parameters to the flash scope
+			validation.keep(); // keep the errors for the next request
+			changeEmailForm();
+		}
+		
+		user.email = email;
+		user.save();
+		
+		flash.success("Email successfully changed");
+		Home.home();
+		
+	}
+	
 
 }
