@@ -14,6 +14,9 @@ POST	/register								Register.perform
 GET		/changePassword							Account.changePasswordForm
 POST	/changePassword							Account.performChangePassword
 
+GET		/changeEmail							Account.changeEmailForm
+POST	/changeEmail							Account.performChangeEmail
+
 GET		/event/{id}								Events.show
 
 

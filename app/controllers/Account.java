@@ -64,6 +64,8 @@ public class Account extends Controller {
 		
 		user.email = email;
 		user.save();
+
+		session.put("username", email);
 		
 		flash.success("Email successfully changed");
 		Home.home();
