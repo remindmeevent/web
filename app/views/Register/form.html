@@ -2,7 +2,7 @@
 #{set title:'Register' /}
 
 <h1>Register</h1>
-#{form @UserController.create()}
+#{form @Register.perform()}
 	#{if flash.error}
 		<p class="error">
 			&{flash.error}

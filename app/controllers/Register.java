@@ -4,18 +4,18 @@ import models.User;
 import play.data.validation.Valid;
 import play.mvc.Controller;
 
-public class UserController extends Controller {
+public class Register extends Controller {
 
-	public static void blank() {
+	public static void form() {
 		User user = new User();
 		render(user);
 	}
 
-	public static void create(@Valid User user) {
+	public static void perform(@Valid User user) {
 		if (validation.hasErrors()) {
 			params.flash(); // add http parameters to the flash scope
 			validation.keep(); // keep the errors for the next request
-			blank();
+			form();
 		}
 		user.hashPassword();
 		user.save();
