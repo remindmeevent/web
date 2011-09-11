@@ -2,6 +2,13 @@
 #{set title:'Welcome' /}
 
 <h1>Welcome ${user.email}</h1>
+
+#{if flash.success}
+<div class="alert-message success">
+	&{flash.success}
+</div>
+#{/if}
+
 <h2>Your events </h2>
 <ul>
 #{list items:user.events, as:'event'}

@@ -11,6 +11,9 @@ GET     /                                       Home.home
 GET		/register								Register.form
 POST	/register								Register.perform
 
+GET		/changePassword							Account.changePasswordForm
+POST	/changePassword							Account.performChangePassword
+
 GET		/event/{id}								Events.show
 
 

@@ -15,6 +15,17 @@
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
+        <script type="text/javascript">
+        $(document).ready(function(){
+        	$("body").bind("click", function (e) {
+        	    $('.dropdown-toggle, .menu').parent("li").removeClass("open");
+        	  });
+        	  $(".dropdown-toggle, .menu").click(function (e) {
+        	    var $li = $(this).parent("li").toggleClass('open');
+        	    return false;
+        	  });
+        });
+        </script>
     </head>
     <body>
 	    <!-- Topbar
@@ -24,9 +35,15 @@
 	        <div class="container"> 
 	          <h3><a href="#">Birthday Reminder</a></h3> 
 	          <ul class="nav"> 
-	            <li class="active"><a href="#masthead">Overview</a></li> 
-	            <li><a href="#about">Lorem</a></li> 
-	            <li><a href="#grid-system">Ipsum</a></li> 
+	          #{if session.username}
+	          	<li class="dropdown">
+              		<a href="#" class="dropdown-toggle">Account</a>
+              		<ul class="dropdown-menu">
+                		<li>#{a @Account.changePasswordForm()}Change password#{/a}</li>
+                		<li><a href="#">Change email</a></li>
+                	</ul>
+            	</li>
+              #{/if} 
 	          </ul> 
 	          <ul class="nav secondary-nav">
             	<li>
