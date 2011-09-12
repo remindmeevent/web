@@ -1,6 +1,13 @@
 #{extends 'main.html' /}
 #{set title:'Welcome' /}
-
+<script>
+$(document).ready(function(){
+	$("#deleteBtn").click(function(event){
+		$("#deleteForm").submit();
+		event.preventDefault();
+	});
+});
+</script>
 <h1>Welcome ${user.email}</h1>
 
 #{if flash.success}
@@ -43,9 +50,16 @@
 			<div class="actions">
 		        <button type="submit" class="btn primary">Save</button>
 		        <a href="/" class="btn">Cancel</a>
-		    </div>
-		
+		        #{if event}
+			        <button type="submit" id="deleteBtn" class="btn">Delete</button>
+		        #{/if}
+   		    </div>
 		#{/form}
+		
+		#{if event}
+		#{form @Events.delete(event.id), id:'deleteForm'}
+		#{/form}
+		#{/if}
     </div>
     <div>
 		<h2>Your events </h2>

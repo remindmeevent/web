@@ -32,6 +32,11 @@ public class Events extends Controller{
 			validation.keep(); // keep the errors for the next request
 			Home.home();
 		}
+		if (event.id == null) {
+			User user = connectedUser();
+			user.addEvent(event);
+			user.save();
+		}
 		
 		event.reminders.clear();
 		
@@ -47,5 +52,16 @@ public class Events extends Controller{
 
 	private static User connectedUser() {
 		return User.findByEmail(Security.connected());
+	}
+	
+	public static void delete(Long id) {
+		Event event = Event.findById(id);
+		if (eventBelongsToConnectedUser(event)) {
+			event.delete();
+			flash.success("Event successfully deleted");
+			Home.home();
+		} else {
+			error(Http.StatusCode.FORBIDDEN, "You do not own this event");
+		}
 	}
 }
