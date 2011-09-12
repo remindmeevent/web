@@ -18,6 +18,7 @@ GET		/changeEmail							Account.changeEmailForm
 POST	/changeEmail							Account.performChangeEmail
 
 GET		/event/{id}								Events.show
+POST	/event									Events.save
 
 
 # Ignore favicon requests

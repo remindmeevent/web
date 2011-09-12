@@ -10,10 +10,13 @@ import org.joda.time.DateMidnight;
 import org.joda.time.MutableDateTime;
 import org.joda.time.Years;
 
+import play.data.validation.Min;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
 public class Reminder extends Model {
+	@Required @Min(0)
 	public Integer numberOfDaysBeforeEvent;
 	public Date nextFireDate;
 	
