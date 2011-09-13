@@ -4,3 +4,11 @@ require:
   - play
   - play -> secure
   - org.easytesting -> fest-assert 1.4
+  - play -> cloudfoundry
+  
+repositories:
+    - spring_milestone:
+        type: iBiblio
+        root: http://maven.springframework.org/milestone
+        contains:
+            - org.cloudfoundry -> *
