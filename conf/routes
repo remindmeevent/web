@@ -10,6 +10,7 @@ GET     /                                       Home.home
 
 GET		/register								Register.form
 POST	/register								Register.perform
+GET		/register/confirm/{email}/{token}		Register.confirmRegistration
 
 GET		/changePassword							Account.changePasswordForm
 POST	/changePassword							Account.performChangePassword
