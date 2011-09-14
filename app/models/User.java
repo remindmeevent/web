@@ -3,6 +3,7 @@ package models;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -45,6 +46,7 @@ public class User extends Model {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	public List<Event> events = new ArrayList<Event>();
 	public State state = State.NOT_CONFIRMED;
+	public String confirmationToken;
 
 	public void addEvent(Event event) {
 		event.user = this;
@@ -73,8 +75,12 @@ public class User extends Model {
 	}
 
 	public enum State {
-		NOT_CONFIRMED, 
-		CONFIRMED
+		NOT_CONFIRMED, CONFIRMED
+
+	}
+
+	public void generateConfirmationToken() {
+		confirmationToken = UUID.randomUUID().toString();
 
 	}
 

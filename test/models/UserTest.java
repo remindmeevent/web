@@ -52,4 +52,12 @@ public class UserTest extends BaseUnitTest {
 		User user = new User();
 		assertThat(user.state).isEqualTo(User.State.NOT_CONFIRMED);
 	}
+	
+	@Test
+	public void shouldGetATokenForANotConfirmedUser() {
+		User user = new User();
+		user.generateConfirmationToken();
+		assertThat(user.confirmationToken).isNotEmpty();
+		
+	}
 }

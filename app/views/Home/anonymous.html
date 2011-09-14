@@ -1,6 +1,12 @@
 #{extends 'main.html' /}
 #{set title:'Welcome' /}
 
+#{if flash.success}
+<div class="alert-message success">
+	&{flash.success}
+</div>
+#{/if}
+
 <h1>Welcome anonymous</h1>
 <p>#{a @Secure.login()}Login#{/a}</p>
 <p>#{a @Register.form()}Register#{/a}</p>
