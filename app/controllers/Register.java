@@ -1,13 +1,18 @@
 package controllers;
 
+import java.util.Map;
+
 import models.User;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
+import play.Logger;
 import play.data.validation.Valid;
 import play.libs.Mail;
 import play.mvc.Controller;
+import play.mvc.Router;
 import util.Config;
 
 public class Register extends Controller {
@@ -53,8 +58,11 @@ public class Register extends Controller {
 	}
 
 	private static String createRegistrationMessage(User user) {
-		// TODO retrieve public URL, voir pour encoder l'url
-		return "http://localhost:9000/register/confirm/" + user.email + "/" + user.confirmationToken;
+		Map params = new HashedMap();
+		params.put("email", user.email);
+		params.put("token", user.confirmationToken);
+		
+		return Router.getFullUrl("Register.confirmRegistration", params);
 	}
 
 	public static void confirmRegistration(String email, String token) {
