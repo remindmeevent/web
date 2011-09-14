@@ -8,12 +8,11 @@ import org.apache.commons.mail.SimpleEmail;
 import play.data.validation.Valid;
 import play.libs.Mail;
 import play.mvc.Controller;
+import util.Config;
 
 public class Register extends Controller {
 
-	// TODO : Refactor
 	private static final String EMAIL_SUBJECT = "Remind me event registration";
-	private static final String EMAIL_FROM = "remindmeevent@gmail.com";
 
 	public static void form() {
 		User user = new User();
@@ -39,7 +38,7 @@ public class Register extends Controller {
 	private static void sendConfirmationEmail(User user) {
 		try {
 			SimpleEmail email = new SimpleEmail();
-			email.setFrom(EMAIL_FROM);
+			email.setFrom(Config.getEmailFromAddress(), Config.getEmailFromName());
 			email.addTo(user.email);
 			email.setSubject(EMAIL_SUBJECT);
 			email.setMsg(createRegistrationMessage(user));

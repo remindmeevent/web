@@ -15,13 +15,13 @@ import play.db.jpa.JPA;
 import play.jobs.Every;
 import play.jobs.Job;
 import play.libs.Mail;
+import util.Config;
 
 @Every("1h")
 public class ReminderSenderJob extends Job {
 
 	private static final String EMAIL_SUBJECT = "Remind";
-	private static final String EMAIL_FROM = "yes@wecan.com";
-
+	
 	public void doJob() {
 		Logger.debug("ReminderSenderJob.doJob()");
 
@@ -50,7 +50,7 @@ public class ReminderSenderJob extends Job {
 
 	protected SimpleEmail createMail(Reminder reminder) throws EmailException {
 		SimpleEmail email = new SimpleEmail();
-		email.setFrom(EMAIL_FROM);
+		email.setFrom(Config.getEmailFromAddress(), Config.getEmailFromName());
 		email.addTo(reminder.event.user.email);
 		email.setSubject(EMAIL_SUBJECT);
 		email.setMsg(createRemindMessage(reminder));
