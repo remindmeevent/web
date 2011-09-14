@@ -1,19 +1,23 @@
 package controllers;
 
+import java.util.Map;
+
 import models.User;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
+import play.Logger;
 import play.data.validation.Valid;
 import play.libs.Mail;
 import play.mvc.Controller;
+import play.mvc.Router;
+import util.Config;
 
 public class Register extends Controller {
 
-	// TODO : Refactor
 	private static final String EMAIL_SUBJECT = "Remind me event registration";
-	private static final String EMAIL_FROM = "remindmeevent@gmail.com";
 
 	public static void form() {
 		User user = new User();
@@ -28,31 +32,37 @@ public class Register extends Controller {
 		}
 		user.hashPassword();
 		user.generateConfirmationToken();
-		user.save();
-
-		sendConfirmationEmail(user);
-		flash.success("Check your mail box, an email as been send to confirm your registration");
-
-		Home.home();
+		if (sendConfirmationEmail(user)) {
+			user.save();
+			flash.success("Check your mail box, an email as been send to confirm your registration");
+			Home.home();
+		} else {
+			flash.error("Error sending your registration email. Please retry later");
+			params.flash(); // add http parameters to the flash scope
+			validation.keep(); // keep the errors for the next request
+			form();
+		}
 	}
 
-	private static void sendConfirmationEmail(User user) {
+	private static boolean sendConfirmationEmail(User user) {
 		try {
 			SimpleEmail email = new SimpleEmail();
-			email.setFrom(EMAIL_FROM);
+			email.setFrom(Config.getEmailFromAddress(), Config.getEmailFromName());
 			email.addTo(user.email);
 			email.setSubject(EMAIL_SUBJECT);
 			email.setMsg(createRegistrationMessage(user));
-			Mail.send(email);
+			return await(Mail.send(email));
 		} catch (EmailException e) {
-			// TODO ....
-			throw new RuntimeException(e);
+			return false;
 		}
 	}
 
 	private static String createRegistrationMessage(User user) {
-		// TODO retrieve public URL, voir pour encoder l'url
-		return "http://localhost:9000/register/confirm/" + user.email + "/" + user.confirmationToken;
+		Map params = new HashedMap();
+		params.put("email", user.email);
+		params.put("token", user.confirmationToken);
+		
+		return Router.getFullUrl("Register.confirmRegistration", params);
 	}
 
 	public static void confirmRegistration(String email, String token) {

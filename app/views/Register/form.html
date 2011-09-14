@@ -4,9 +4,9 @@
 <h1>Register</h1>
 #{form @Register.perform()}
 	#{if flash.error}
-		<p class="error">
-			&{flash.error}
-		</p>
+	<div class="alert-message error">
+		&{flash.error}
+	</div>
 	#{/if}
 	<div class="clearfix ${errors.forKey('user.email') ? 'error' : ''}">
     	<label for="user.email">Email</label>
