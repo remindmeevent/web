@@ -27,25 +27,28 @@ public class Register extends Controller {
 		}
 		user.hashPassword();
 		user.generateConfirmationToken();
-		user.save();
-
-		sendConfirmationEmail(user);
-		flash.success("Check your mail box, an email as been send to confirm your registration");
-
-		Home.home();
+		if (sendConfirmationEmail(user)) {
+			user.save();
+			flash.success("Check your mail box, an email as been send to confirm your registration");
+			Home.home();
+		} else {
+			flash.error("Error sending your registration email. Please retry later");
+			params.flash(); // add http parameters to the flash scope
+			validation.keep(); // keep the errors for the next request
+			form();
+		}
 	}
 
-	private static void sendConfirmationEmail(User user) {
+	private static boolean sendConfirmationEmail(User user) {
 		try {
 			SimpleEmail email = new SimpleEmail();
 			email.setFrom(Config.getEmailFromAddress(), Config.getEmailFromName());
 			email.addTo(user.email);
 			email.setSubject(EMAIL_SUBJECT);
 			email.setMsg(createRegistrationMessage(user));
-			Mail.send(email);
+			return await(Mail.send(email));
 		} catch (EmailException e) {
-			// TODO ....
-			throw new RuntimeException(e);
+			return false;
 		}
 	}
 
