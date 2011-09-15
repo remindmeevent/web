@@ -17,7 +17,7 @@ import play.jobs.Job;
 import play.libs.Mail;
 import util.Config;
 
-@Every("1d")
+@Every("1mn")
 public class ReminderSenderJob extends Job {
 
 	private static final String EMAIL_SUBJECT = "Remind";
