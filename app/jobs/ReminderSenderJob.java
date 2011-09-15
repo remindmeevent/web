@@ -28,6 +28,7 @@ public class ReminderSenderJob extends Job {
 		Logger.debug("ReminderSenderJob.doJob()");
 
 		List<Reminder> remindersToFire = Reminder.findFiringToday();
+		Logger.debug("Found %d reminders to send ", remindersToFire.size());
 		for (Reminder reminder : remindersToFire) {
 			Logger.debug("Sending reminder for event named %s to %s ", reminder.event.name, reminder.event.user.email);
 			if (send(reminder)) {

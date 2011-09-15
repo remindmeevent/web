@@ -45,7 +45,7 @@ public class Events extends Controller{
 		
 		event.save();
 		
-		flash.success("Event successfully saved");
+		flash.success("Event successfully saved, next fire date : " + reminder.nextFireDate);
 		Home.home();
 		
 	}
