@@ -34,8 +34,13 @@ public class Reminder extends Model {
 		time.setDayOfMonth(event.dayOfMonth);
 		time.setMonthOfYear(event.monthOfYear);
 		time.addDays(-1 * numberOfDaysBeforeEvent);
-
-		if(! time.isAfter(today)) {
+		
+		boolean isFirstCompute = nextFireDate == null;
+		if (isFirstCompute) {
+			if (time.isBefore(today)) {
+				time.add(Years.ONE);
+			}
+		} else if (!time.isAfter(today)) {
 			time.add(Years.ONE);
 		}
 		nextFireDate = time.toDate();

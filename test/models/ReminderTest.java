@@ -17,7 +17,7 @@ public class ReminderTest extends BaseUnitTest {
 
 	@Test
 	public void shouldComputeFirstFiringDate() throws Exception {
-		assertNextFireDate(6, 1, 5, 1, 1); // 06/06  -> five days before -> 01/06
+		assertNextFireDate(6, 6, 5, 1, 6); // 06/06  -> five days before -> 01/06
 		assertNextFireDate(1, 6, 5, 27, 5); // 01/06  -> five days before -> 27/05
 	}
 	
@@ -25,8 +25,8 @@ public class ReminderTest extends BaseUnitTest {
 	public void shouldComputeNextFireDate() throws Exception {
 		DateMidnight now = new DateMidnight();
 		Event event = new Event();
-		event.dayOfMonth = now.getMonthOfYear();
-		event.monthOfYear = now.getDayOfMonth();
+		event.dayOfMonth = now.getDayOfMonth();
+		event.monthOfYear = now.getMonthOfYear();
 		
 		Reminder reminder = new Reminder();
 		reminder.numberOfDaysBeforeEvent = 0;
@@ -39,7 +39,6 @@ public class ReminderTest extends BaseUnitTest {
 		tmp.add(Years.ONE);
 		DateMidnight inOneYear = new DateMidnight(tmp);
 		assertThat(nextFireDate).isEqualTo(inOneYear);
-		
 	}
 
 	private void assertNextFireDate(int dayOfMonth, int monthOfYear, int numberOfDaysBeforeEvent, int expectedDayOfMonth, int expectedMonthOfYear) {
@@ -61,12 +60,27 @@ public class ReminderTest extends BaseUnitTest {
 		assertThat(nextFireDate).isEqualTo(new DateMidnight(nextFireDate));
 		
 		// In the future
-		assertThat(now.isBefore(nextFireDate)).isTrue();
+		assertThat(nextFireDate.isBefore(now)).isFalse();
 		
 		// Less than a year between now and reminder
 		assertThat(Years.yearsBetween(now, nextFireDate).getYears()).isEqualTo(0);
 		
 		assertThat(nextFireDate.getDayOfMonth()).isEqualTo(expectedDayOfMonth);
 		assertThat(nextFireDate.getMonthOfYear()).isEqualTo(expectedMonthOfYear);
+	}
+	
+	@Test
+	public void nextFireDateCanBeTodayOnFirstFire () throws Exception {
+		DateMidnight today = new DateMidnight();
+		Event event = new Event();
+		event.dayOfMonth = today.getDayOfMonth();
+		event.monthOfYear = today.getMonthOfYear();
+		
+		Reminder reminder = new Reminder();
+		reminder.numberOfDaysBeforeEvent = 0;
+		event.addReminder(reminder);
+		
+		reminder.computeNextFireDate();
+		assertThat(new DateMidnight(reminder.nextFireDate.getTime())).isEqualTo(today);
 	}
 }
