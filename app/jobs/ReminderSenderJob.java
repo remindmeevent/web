@@ -1,6 +1,8 @@
 package jobs;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 import models.Reminder;
 
@@ -28,24 +30,30 @@ public class ReminderSenderJob extends Job {
 		List<Reminder> remindersToFire = Reminder.findFiringToday();
 		for (Reminder reminder : remindersToFire) {
 			Logger.debug("Sending reminder for event named %s to %s ", reminder.event.name, reminder.event.user.email);
-			try {
-				send(reminder);
+			if (send(reminder)) {
 				reminder.computeNextFireDate();
 				reminder.save();
-			} catch (EmailException e) {
-				Logger.error("There was an error when trying to send remind " + reminder.id + " by mail : "
-						+ e.getMessage());
+			} else {
+				Logger.error("There was an error when trying to send reminder.id " + reminder.id + " by mail");
 			}
 		}
 	}
 
-	protected void send(Reminder reminder) throws EmailException {
-		sendByMail(reminder);
+	protected boolean send(Reminder reminder) {
+		return sendByMail(reminder);
 	}
 
-	protected void sendByMail(Reminder reminder) throws EmailException {
-		SimpleEmail email = createMail(reminder);
-		Mail.send(email);
+	protected boolean sendByMail(Reminder reminder) {
+		try {
+			SimpleEmail email = createMail(reminder);
+			return Mail.send(email).get();
+		} catch (EmailException e) {
+			return false;
+		} catch (InterruptedException e) {
+			return false;
+		} catch (ExecutionException e) {
+			return false;
+		}
 	}
 
 	protected SimpleEmail createMail(Reminder reminder) throws EmailException {
