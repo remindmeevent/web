@@ -14,18 +14,9 @@
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/javascripts/bootstrap-dropdown.js'}" type="text/javascript" charset="utf-8"></script>
+        
         #{get 'moreScripts' /}
-        <script type="text/javascript">
-        $(document).ready(function(){
-        	$("body").bind("click", function (e) {
-        	    $('.dropdown-toggle, .menu').parent("li").removeClass("open");
-        	  });
-        	  $(".dropdown-toggle, .menu").click(function (e) {
-        	    var $li = $(this).parent("li").toggleClass('open');
-        	    return false;
-        	  });
-        });
-        </script>
     </head>
     <body>
 	    <!-- Topbar
@@ -36,7 +27,7 @@
 	          <h3><a href="/">Remind Me Event</a></h3> 
 	          <ul class="nav"> 
 	          #{if session.username}
-	          	<li class="dropdown">
+	          	<li class="dropdown" data-dropdown="dropdown">
               		<a href="#" class="dropdown-toggle">Account</a>
               		<ul class="dropdown-menu">
                 		<li>#{a @Account.changePasswordForm()}Change password#{/a}</li>
