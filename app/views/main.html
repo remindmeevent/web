@@ -26,7 +26,9 @@
 	        <div class="container"> 
 	          <h3><a href="/">Remind Me Event</a></h3> 
 	          <ul class="nav"> 
-	          #{if session.username}
+	          </ul> 
+	          <ul class="nav secondary-nav">
+	          	#{if session.username}
 	          	<li class="dropdown" data-dropdown="dropdown">
               		<a href="#" class="dropdown-toggle">Account</a>
               		<ul class="dropdown-menu">
@@ -34,9 +36,7 @@
                 		<li>#{a @Account.changeEmailForm()}Change email#{/a}</a></li>
                 	</ul>
             	</li>
-              #{/if} 
-	          </ul> 
-	          <ul class="nav secondary-nav">
+              	#{/if} 	          
             	<li>
             		#{if session.username}
             			#{a @Secure.logout()}Logout#{/a}
@@ -46,7 +46,7 @@
 	        </div> 
 	      </div> 
 	    </div>
-	    <div class="container" style="margin-top: 40px;">       
+	    <div class="container">       
         	#{doLayout /}
         </div>
     </body>
