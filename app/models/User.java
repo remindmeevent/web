@@ -20,6 +20,7 @@ import play.data.validation.MinSize;
 import play.data.validation.Password;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.libs.Codec;
 import play.libs.Crypto;
 
 @Entity
@@ -82,6 +83,10 @@ public class User extends Model {
 	public void generateConfirmationToken() {
 		confirmationToken = UUID.randomUUID().toString();
 
+	}
+
+	public String gravatar(int size) {
+		return "http://www.gravatar.com/avatar/" + Codec.hexMD5(email) + "?s=" + size;
 	}
 
 }
