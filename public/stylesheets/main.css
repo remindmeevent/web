@@ -1,3 +1,9 @@
 body {
 	padding-top: 40px;
 }
+
+.dropdown-toggle img {
+	vertical-align: top;
+	margin-right: 6px;
+	cursor: pointer;
+}

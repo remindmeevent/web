@@ -30,7 +30,10 @@
 	          <ul class="nav secondary-nav">
 	          	#{if session.username}
 	          	<li class="dropdown" data-dropdown="dropdown">
-              		<a href="#" class="dropdown-toggle">Account</a>
+              		<a href="#" class="dropdown-toggle">
+              			<img src="${gravatar}" width="20" height="20" />
+              			Account
+           			</a>
               		<ul class="dropdown-menu">
                 		<li>#{a @Account.changePasswordForm()}Change password#{/a}</li>
                 		<li>#{a @Account.changeEmailForm()}Change email#{/a}</a></li>
