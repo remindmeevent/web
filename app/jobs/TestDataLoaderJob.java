@@ -23,6 +23,7 @@ public class TestDataLoaderJob extends Job {
 			User user = new User();
 			user.email = "jsevellec@gmail.com";
 			user.password = "azerty";
+			user.state = User.State.CONFIRMED;
 			user.hashPassword();
 
 			Event event = new Event();
