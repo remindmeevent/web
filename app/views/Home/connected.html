@@ -23,28 +23,36 @@ $(document).ready(function(){
 		    	<label for="event.name">Name</label>
 		        <div class="input">
 		        	<input class="xlarge ${errors.forKey('event.name') ? 'error' : ''}" type="text" name="event.name" id="event.name" value="${event ? event.name : flash['event.name']}" />
+		        	#{ifError 'event.name'}
 					<span class="help-inline">#{error 'event.name'/}</span>
+					#{/ifError}
 		        </div>
 		   	</div>
 		   	<div class="clearfix ${errors.forKey('event.dayOfMonth') ? 'error' : ''}">
 		    	<label for="event.dayOfMonth">Day of month</label>
 		        <div class="input">
 		        	<input class="${errors.forKey('event.dayOfMonth') ? 'error' : ''}" type="event.dayOfMonth" name="event.dayOfMonth" id="event.dayOfMonth" value="${event ? event.dayOfMonth : flash['event.dayOfMonth']}"/>
+		        	#{ifError 'event.dayOfMonth'}
 					<span class="help-inline">#{error 'event.dayOfMonth'/}</span>
+					#{/ifError}
 		        </div>
 		   	</div>
 		   	<div class="clearfix ${errors.forKey('event.monthOfYear') ? 'error' : ''}">
 		    	<label for="event.monthOfYear">Month of year</label>
 		        <div class="input">
 		        	<input class="${errors.forKey('event.monthOfYear') ? 'error' : ''}" type="event.monthOfYear" name="event.monthOfYear" id="event.monthOfYear" value="${event ? event.monthOfYear : flash['event.monthOfYear']}" />
+		        	#{ifError 'event.monthOfYear'}
 					<span class="help-inline">#{error 'event.monthOfYear'/}</span>
+					#{/ifError}
 		        </div>
 		   	</div>
 		   	<div class="clearfix ${errors.forKey('reminder.numberOfDaysBeforeEvent') ? 'error' : ''}">
 		    	<label for="reminder.numberOfDaysBeforeEvent">Alert me x days before event</label>
 		        <div class="input">
 		        	<input class="${errors.forKey('reminder.numberOfDaysBeforeEvent') ? 'error' : ''}" type="reminder.numberOfDaysBeforeEvent" name="reminder.numberOfDaysBeforeEvent" id="reminder.numberOfDaysBeforeEvent" value="${event ? reminder.numberOfDaysBeforeEvent : flash['reminder.numberOfDaysBeforeEvent']}"/>
+		        	#{ifError 'reminder.numberOfDaysBeforeEvent'}
 					<span class="help-inline">#{error 'reminder.numberOfDaysBeforeEvent'/}</span>
+					#{/ifError}
 		        </div>
 		   	</div>
 			<div class="actions">
